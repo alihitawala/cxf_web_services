@@ -1,0 +1,52 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tns="http://cxfdemo.example.com/v1.1"
+                  targetNamespace="http://cxfdemo.example.com/v1.1">
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://cxfdemo.example.com/v1.1"
+                        schemaLocation="hello.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+
+    <!-- Add message -->
+    <wsdl:message name="sayHelloMessage">
+        <wsdl:part element="tns:sayHello" name="sayHello"/>
+    </wsdl:message>
+
+    <wsdl:message name="sayHelloResponseMessage">
+        <wsdl:part element="tns:sayHelloResponse" name="sayHelloResponse"/>
+    </wsdl:message>
+
+    <!-- Add port type -->
+    <wsdl:portType name="HelloPort">
+        <wsdl:operation name="sayHelloOperation">
+            <wsdl:input message="tns:sayHelloMessage" name="sayHelloInput"/>
+            <wsdl:output message="tns:sayHelloResponseMessage" name="sayHelloOutput"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <!-- Add binding -->
+    <wsdl:binding name="CXFHelloExampleBinding" type="tns:HelloPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="sayHelloOperation">
+            <soap:operation soapAction=""/>
+
+            <wsdl:input name="sayHelloInput">
+                <soap:body use="literal"/>
+            </wsdl:input>
+
+            <wsdl:output name="sayHelloOutput">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <!-- Add service -->
+    <wsdl:service name="CXFHelloExampleService">
+        <wsdl:port binding="tns:CXFHelloExampleBinding" name="CXFHelloExampleService">
+            <soap:address location="/helloService/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
